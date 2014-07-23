@@ -189,31 +189,58 @@ class CRM(Connection):
         
         self.check_successful_xml(response)
     
-    def get_record_by_id(self, id):
+    # def get_record_by_id(self, id):
+    #     """
+    #
+    #     https://www.zoho.com/crm/help/api/getrecordbyid.html
+    #
+    #     @param id: String. Lead id to fetch.
+    #
+    #     @return: Python dictionary which contains lead key-value pairs.
+    #
+    #     """
+    #     self.ensure_opened()
+    #
+    #
+    #     post_params = {
+    #         "id": id,
+    #         "newFormat" : 2
+    #     }
+    #
+    #     response = self.do_call("https://crm.zoho.com/crm/private/json/Leads/getRecordById", post_params)
+    #
+    #     # raw data looks like {'response': {'result': {'Leads': {'row': [{'FL': [{'content': '177376000000142085', 'val': 'LEADID'}, ...
+    #     data =  decode_json(response)
+    #
+    #     parsed = self._parse_json_response(data)
+    #
+    #     return parsed[0] if len(parsed) else None
+
+    def get_record_by_id(self, id, module):
         """
-        
+
         https://www.zoho.com/crm/help/api/getrecordbyid.html
-        
+
         @param id: String. Lead id to fetch.
-        
+
         @return: Python dictionary which contains lead key-value pairs.
-        
+
         """
         self.ensure_opened()
-        
-        
+
+
         post_params = {
             "id": id,
             "newFormat" : 2
         }
-        
-        response = self.do_call("https://crm.zoho.com/crm/private/json/Leads/getRecordById", post_params)
-        
+
+        response = self.do_call("https://crm.zoho.com/crm/private/json/" + module + "/getRecordById", post_params)
+
         # raw data looks like {'response': {'result': {'Leads': {'row': [{'FL': [{'content': '177376000000142085', 'val': 'LEADID'}, ...
         data =  decode_json(response)
-        
+
         parsed = self._parse_json_response(data)
-        
+
         return parsed[0] if len(parsed) else None
     
     def search_records(self, searchCondition, selectColumns='leads(First Name,Last Name,Company)'):
